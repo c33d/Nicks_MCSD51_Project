@@ -1,4 +1,10 @@
 p {
-    color: red;
+    color: #000000;
 
+
+}
+.img2 {
+    float: right;
+    max-width: 200px;
+    margin-left: 5px;
 }

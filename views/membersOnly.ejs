@@ -4,7 +4,13 @@
     </head>
     <body>
         <h2 style="color: red;">Members Only Page</h2>
-        <%- include('partials/navbar2.ejs') %>
+        <% if (session.loggedin) { %>
+            <p>Welcome, <%= session.username %>!</p>
+            <%- include('partials/navbar2.ejs')%>
+        <% } else { %>
+            <p>Please log in.</p>
+            <%- include('partials/navbar1.ejs')%>
+        <% } %>
         <p style="color: blue">
             Welcome to a Member only page. You are now logged in.
         </p>

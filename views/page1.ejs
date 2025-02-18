@@ -3,7 +3,13 @@
         <%- include('partials/header1.ejs') %>
     </head>
     <body>
-        <%- include('partials/navbar1.ejs') %>
+        <% if (session.loggedin) { %>
+            <p>Welcome, <%= session.username %>!</p>
+            <%- include('partials/navbar2.ejs')%>
+        <% } else { %>
+            <p>Please log in.</p>
+            <%- include('partials/navbar1.ejs')%>
+        <% } %>
         <h1>This is my NOT my Home Page.</h1>
 
         <h4>This is my H4 Header</h4>

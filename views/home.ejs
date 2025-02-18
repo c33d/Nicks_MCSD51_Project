@@ -3,7 +3,14 @@
         <%- include('partials/header1.ejs') %>
     </head>
     <body>
-        <%- include('partials/navbar1.ejs') %>
+        <% if (session.loggedin) { %>
+            <p>Welcome, <%= session.username %>!</p>
+            <%- include('partials/navbar2.ejs')%>
+        <% } else { %>
+            <p>Please log in.</p>
+            <%- include('partials/navbar1.ejs')%>
+        <% } %>
+
         <h4 style= 'font-size:xx-large';>This is my H4 Header with in-line font size adjustment</h4>
         <a href="page1">Page One Link yay!</a>
         <h2> <a href="http://futureskills.co.nz">This goes to Future Skills website</a></h2>

@@ -3,19 +3,25 @@
         <%- include('partials/header1.ejs') %>
     </head>
     <body>
-        <%- include('partials/navbar1.ejs') %>
+        <% if (session.loggedin) { %>
+            <p>Welcome, <%= session.username %>!</p>
+            <%- include('partials/navbar2.ejs')%>
+        <% } else { %>
+            <p>Please log in.</p>
+            <%- include('partials/navbar1.ejs')%>
+        <% } %>
         <div>
             <h1>Login / Register</h1>
             <br>
             <form action="/auth" method="post">
-                <input type="text" name="username" placeholder="User Name" id=username required>
+                <input type="text" name="username" placeholder="User Name" id="username" required>
                 <label for="password">
                 </label>
-                <input type="password" name="password" placeholder="Password" id="password" required>
+                <input type="password" name="password" placeholder="Password" id="password" required> // required means will show red line if not filled in
                 <input type="submit" value="Login">
             </form>
             <br>
-            <h4><a href="register">Register</a></h4>
+            <h4><a href="register1">Register</a></h4>
         </div>
     </body>
 </html>

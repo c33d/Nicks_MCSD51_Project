@@ -3,7 +3,13 @@
         <%- include('partials/header1.ejs') %>
     </head>
     <body>
-        <%- include('partials/navbar1.ejs') %>
+        <% if (session.loggedin) { %>
+            <p>Welcome, <%= session.username %>!</p>
+            <%- include('partials/navbar2.ejs')%>
+        <% } else { %>
+            <p>Please log in.</p>
+            <%- include('partials/navbar1.ejs')%>
+        <% } %>
         <div class="container">
             <h2>Awesome Picture</h2>
             <img class="img2" src="/public/images/awesomepicture.jpg" alt="Awesome Picture">

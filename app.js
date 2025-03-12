@@ -34,37 +34,42 @@ app.get('/register1', function (req,res){
 app.post('/register', function(req,res){  //Video 15/01 @ 30min
     res.send('This page is under construction.');
 
-        let username = req.body.username;
+        let name = req.body.username;
         let password = req.body.password;
         let passwordVer = req.body.passwordVer;
         let email = req.body.email;
 
-        console.log(`Username: ${username}`);
-        console.log(`Email: ${email}`);
-        console.log(`Password: ${password}`);
-        console.log(`PasswordVer: ${passwordVer}`);
+if(password == passwordVer){
 
-        res.end();
+        conn.query(
+            'INSERT INTO users(id, name, password, email) VALUES ("${1001}", "${username}", "${password}", "${email}")', 
+            
+        function(error, results, fields) {
+            if (error) {
+                console.log('Oops an error occured executing the query', error);
+            } 
+            else {
+                console.log('New user record has been added to the database');
+                res.render('membersOnly', {user: username});
+            }
+        });
+}
 
 
-
-    // if (name && password) {
-    //     conn.query('SELECT * FROM users WHERE name = ? AND password = ?', [name, password],
-    //     function(error, results, fields) {
-    //         if (results.length > 0) {
-    //             req.session.loggedin = true;
-    //             req.session.username = name;
-    //             res.redirect('/membersOnly');
-    //         } else {
-    //             res.send('Incorrect Username and/or Password!');
-    //         }
-    //         res.end();
-    //     }); 
-    // } else {
-    //     res.send('Please enter Username and Password!');
-    //     res.end();
+        // console.log(`Username: ${username}`);
+        // console.log(`Email: ${email}`);
+        // console.log(`Password: ${password}`);
+        // console.log(`PasswordVer: ${passwordVer}`);
+    
+    // else{
+    //     res.send('Passwords do not match!');
     // }
-});
+        //     res.end();
+    })
+
+
+
+   
 app.post('/auth', function(req,res){  //Video 15/01 @ 30min
     let name = req.body.username;
     let password = req.body.password;
@@ -103,7 +108,8 @@ app.get('/grandpage', function (req,res){res.render("grandpage");
 app.get('/logout',(req,res) => {
     req.session.destroy();
     res.redirect('/');
-})
+});
 
-app.listen(3000);
-console.log('Node app is running at localhost:3000');
+app.listen(3000, function () {
+    console.log('Node app is running at localhost:3000');
+});

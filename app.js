@@ -31,7 +31,7 @@ app.get('/register1', function (req,res){
 app.post('/register', function(req,res){  //Video 15/01 @ 30min
     res.send('This page is under construction.');
 
-        let name = req.body.username;
+        let username = req.body.username;
         let password = req.body.password;
         let passwordVer = req.body.passwordVer;
         let email = req.body.email;
@@ -39,7 +39,7 @@ app.post('/register', function(req,res){  //Video 15/01 @ 30min
 if(password == passwordVer){
 
         conn.query(
-            'INSERT INTO users(id, name, password, email) VALUES ("${1001}", "${username}", "${password}", "${email}")', 
+            `INSERT INTO users (username, password, email) VALUES ("${username}", "${password}", "${email}")`, 
             
         function(error, results, fields) {
             if (error) {

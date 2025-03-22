@@ -25,7 +25,7 @@ app.get('/login', function (req,res){
 app.get('/grandpage', function (req,res){
     res.render("grandpage.ejs", { session: req.session });
     });
-app.get('/membersOnly.ejs', function (req,res){
+app.get('/membersOnly', function (req,res){
     res.render("membersOnly.ejs", { session: req.session });
     });
 app.get('/register1', function (req,res){
@@ -73,21 +73,29 @@ if(password == passwordVer){
 app.post('/auth', function(req,res){  //Video 15/01 @ 30min
     let name = req.body.username;
     let password = req.body.password;
+
     if (name && password) {
-        conn.query('SELECT * FROM users WHERE name = ? AND password = ?', [name, password],
+        conn.query('SELECT * FROM users WHERE username = ? AND password = ?', [name, password],
         function(error, results, fields) {
-            if (results.length > 0) {
-                req.session.loggedin = true;
-                req.session.username = name;
-                res.redirect('/membersOnly');
-            } else {
-                res.send('Incorrect Username and/or Password!');
+            if (error) {
+                console.error('Database query error:', error);
+                return res.status(500).send('Internal Server Error');
             }
-            res.end();
-        }); 
+
+            if (!results || results.length === 0) {
+                return res.send('Incorrect Username and/or Password!');
+
+            }
+
+            // Successful login
+            req.session.loggedin = true;
+            req.session.username = name;
+            res.redirect('/membersOnly');
+        });
+            
     } else {
         res.send('Please enter Username and Password!');
-        res.end();
+        
     }
 });
 

@@ -100,7 +100,7 @@ app.post('/auth', function(req,res){  //Video 15/01 @ 30min
 // Users can access this if they are logged in
 app.get('/membersOnly', function (req,res){
     if (req.session.loggedin) {
-        res.render("membersOnly");
+        res.render("membersOnly.ejs", { session: req.session });
     } else {
         res.send('Please login to view this page!');
     }

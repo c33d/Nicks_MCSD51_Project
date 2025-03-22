@@ -25,9 +25,6 @@ app.get('/login', function (req,res){
 app.get('/grandpage', function (req,res){
     res.render("grandpage.ejs", { session: req.session });
     });
-app.get('/membersOnly', function (req,res){
-    res.render("membersOnly.ejs", { session: req.session });
-    });
 app.get('/register1', function (req,res){
     res.render("register1.ejs", { session: req.session });
     });

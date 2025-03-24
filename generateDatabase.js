@@ -2,7 +2,7 @@ const fs = require("fs");
 const path = require("path");
 
 const imagesDir = "public/images/snapshots";  // Change this to your image folder path
-const outputJSON = "./database.json";
+const outputJSON = "public/database.json";
 
 fs.readdir(imagesDir, (err, files) => {
     if (err) {

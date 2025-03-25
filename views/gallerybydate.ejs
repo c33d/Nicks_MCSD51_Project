@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('partials/header1.ejs') %>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Gallery by Date</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script defer src="public/gallerybydateScript.js"></script>  <!-- JavaScript file -->
+</head>
+<body>
+    <% if (session.loggedin) { %>
+        <p>Welcome, <%= session.username %>!</p>
+        <%- include('partials/navbar2.ejs')%>
+    <% } else { %>
+        <p>Please log in.</p>
+        <%- include('partials/navbar1.ejs')%>
+    <% } %>
+    <div class="container">
+        <h2>Image Gallery (Grouped by Date)</h2>
+        <div id="gallery"></div> <!-- This is where images will be inserted -->
+    </div>
+</body>
+</html>

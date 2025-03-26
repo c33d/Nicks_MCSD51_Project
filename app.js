@@ -16,14 +16,8 @@ app.use(express.json());
 app.get('/', function (req,res){
     res.render("home", { session: req.session });
     });
-app.get('/page1', function (req,res){
-    res.render("page1", { session: req.session });
-    });
 app.get('/login', function (req,res){
     res.render("login.ejs", { session: req.session });
-    });
-app.get('/grandpage', function (req,res){
-    res.render("grandpage.ejs", { session: req.session });
     });
 app.get('/register1', function (req,res){
     res.render("register1.ejs", { session: req.session });
@@ -47,7 +41,7 @@ if(password == passwordVer){
             } 
             else {
                 console.log('New user record has been added to the database');
-                res.render('membersOnly', {user: username});
+                res.render('gallery1', {user: username});
             }
         });
 }
@@ -87,7 +81,7 @@ app.post('/auth', function(req,res){  //Video 15/01 @ 30min
             // Successful login
             req.session.loggedin = true;
             req.session.username = name;
-            res.redirect('/membersOnly');
+            res.redirect('/gallery1');
         });
             
     } else {
@@ -98,18 +92,23 @@ app.post('/auth', function(req,res){  //Video 15/01 @ 30min
 
 
 // Users can access this if they are logged in
-app.get('/membersOnly', function (req,res){
+app.get('/gallery1', function (req,res){
     if (req.session.loggedin) {
-        res.render("membersOnly.ejs", { session: req.session });
+        res.render("gallery1.ejs", { session: req.session });
     } else {
-        res.send('Please login to view this page!');
+        res.render("login.ejs", { session: req.session });
     }
-    //res.end();
+});
+app.get('/gallerybydate', function (req,res){
+    if (req.session.loggedin) {
+        res.render("gallerybydate.ejs", { session: req.session });
+    } else {
+        res.render("login.ejs", { session: req.session });
+    }
 });
 
-app.get('/grandpage', function (req,res){res.render("grandpage");
-});
 
+// Logout
 app.get('/logout',(req,res) => {
     req.session.destroy();
     res.redirect('/');

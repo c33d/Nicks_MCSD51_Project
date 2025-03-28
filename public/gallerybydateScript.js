@@ -12,6 +12,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
 function displaygallerybydate(images) {
     const galleryDiv = document.getElementById("gallery");
+    galleryDiv.innerHTML = ""; // Clear previous content
+
+    const categories = ["None", "Important", "Personal", "Work", "Other"]; // Define categories
 
     // Group images by date
     const groupedImages = {};
@@ -53,14 +56,34 @@ function displaygallerybydate(images) {
             img.alt = "Image";
             img.style.width = "100%";
 
-            const caption = document.createElement("div");
-            caption.classList.add("caption");
-            caption.textContent = `Taken at: ${image.timestamp}`;
+            const captionDiv = document.createElement("div");
+            captionDiv.classList.add("caption");
+            captionDiv.textContent = `Taken at: ${image.timestamp}`;
+
+              // Category Dropdown
+              const categorySelect = document.createElement("select");
+              categorySelect.classList.add("form-control");
+              categorySelect.style.margin = "5px 0";
+  
+              categories.forEach(category => {
+                  const option = document.createElement("option");
+                  option.value = category;
+                  option.textContent = category;
+                  if (image.category === category) option.selected = true;
+                  categorySelect.appendChild(option);
+              });
+  
+              categorySelect.addEventListener("change", () => updateCategory(image.filename, categorySelect.value));
+  
+              const caption = document.createElement("div");
+              captionDiv.classList.add("caption");
+              captionDiv.textContent = `Taken at: ${image.timestamp}`;
 
             // Assemble the elements
             link.appendChild(img);
+            thumbnail.appendChild(categorySelect);
             thumbnail.appendChild(link);
-            thumbnail.appendChild(caption);
+            thumbnail.appendChild(captionDiv);
             col.appendChild(thumbnail);
             row.appendChild(col);
         });
@@ -68,4 +91,27 @@ function displaygallerybydate(images) {
         section.appendChild(row);
         galleryDiv.appendChild(section);
     }
+}
+
+// Function to update category in database
+function updateCategory(filename, newCategory) {
+    fetch('/update-category', {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ filename, category: newCategory })
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log("Category Updated:", data);
+
+         // ✅ Fetch updated data before reloading the gallery
+        return fetch('/public/database.json');
+    })
+    .then(response => response.json())
+    .then(updatedData => {
+        displaygallerybydate(updatedData);  // ⬅️ Add this to reload gallery
+    })
+    .catch(error => console.error("Error updating category:", error));
 }

@@ -48,7 +48,7 @@ router.post('/register', async (req, res) => {
                         return res.status(500).send('Internal Server Error');
                     }
                     console.log('New user record has been added to the database');
-                    res.render('gallery1', { user: username });
+                    res.render('loginNewuser', { user: username });
                 }
             );
         } catch (err) {

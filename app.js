@@ -1,5 +1,6 @@
 const express = require('express');
 const app = express();
+
 const setupMiddleware = require('./middleware');
 const authRoutes = require('./routes/auth');
 const galleryRoutes = require('./routes/gallery');
@@ -16,6 +17,18 @@ app.use(galleryRoutes);
 
 app.get('/', (req, res) => {
     res.render('home', { session: req.session });
+});
+
+app.get('/register1', (req, res) => {
+    res.render('register1', { session: req.session });
+});
+
+app.get('/login', (req, res) => {
+    res.render('login', { session: req.session });
+});
+
+app.get('/loginNewuser', (req, res) => {
+    res.render('loginNewuser', { session: req.session });
 });
 
 app.get('/logout', (req, res) => {

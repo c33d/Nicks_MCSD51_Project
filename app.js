@@ -5,8 +5,12 @@ const setupMiddleware = require('./middleware');
 const authRoutes = require('./routes/auth');
 const galleryRoutes = require('./routes/gallery');
 const conn = require('./dbConfig');
+const generateDatabase = require('./generateDatabase');
 
 app.set('view engine', 'ejs');
+
+// Generate database.json on server startup
+generateDatabase();
 
 // Setup middleware
 setupMiddleware(app);
@@ -24,7 +28,7 @@ app.get('/register1', (req, res) => {
 });
 
 app.get('/login', (req, res) => {
-    res.render('login', { session: req.session });
+    res.render('login', { secssion: req.session });
 });
 
 app.get('/loginNewuser', (req, res) => {

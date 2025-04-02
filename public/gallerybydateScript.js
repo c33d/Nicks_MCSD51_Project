@@ -100,18 +100,23 @@ function updateCategory(filename, newCategory) {
         headers: {
             "Content-Type": "application/json"
         },
-        body: JSON.stringify({ filename, category: newCategory })
+        body: JSON.stringify({ filename, newCategory }) // Ensure keys match the backend
     })
-    .then(response => response.json())
+    .then(response => {
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        return response.json();
+    })
     .then(data => {
         console.log("Category Updated:", data);
 
-         // ✅ Fetch updated data before reloading the gallery
+        // Fetch updated data and reload the gallery
         return fetch('/public/database.json');
     })
     .then(response => response.json())
     .then(updatedData => {
-        displaygallerybydate(updatedData);  // ⬅️ Add this to reload gallery
+        displaygallerybydate(updatedData); // Reload gallery with updated data
     })
     .catch(error => console.error("Error updating category:", error));
 }
